@@ -1,0 +1,17 @@
+{
+  "name": "Auto Switch-Tool",
+  "version": 2200000,
+  "config": {},
+  "patchUrl": "https://stuff.zamperia.de/switcher/patch.js",
+  "obs": {
+    "pluginUrl": "https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/",
+    "host": "localhost",
+    "port": 4455,
+    "password": "***"
+  },
+  "twitch": {
+    "apiUrl": "https://api.twitch.tv/helix",
+    "clientId": "k5gej9s769fvwr0syqotwmltnjp4rj",
+    "tokenRequestUrl": "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=k5gej9s769fvwr0syqotwmltnjp4rj&redirect_uri=http://localhost&scope=channel%3Amanage%3Abroadcast"
+  }
+}

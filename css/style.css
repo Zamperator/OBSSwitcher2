@@ -1,0 +1,502 @@
+:root {
+    --bgMainColor: #222;
+    --bgErrorColor: #121212;
+    --colorMain: #fff;
+    --colorDarkGrey: #111;
+    --colorMainGray: #444;
+    --colorLightGrey: #666;
+    --colorSecGray: #333;
+    --colorError: #ff0000;
+    --colorErrorRGBA: rgb(255 0 0 / 50%);
+    --colorOnline: #00FF00;
+    --shadowColor: #000;
+    --highlight: #FFA500;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Tahoma', serif;
+    background: var(--bgMainColor);
+    color: var(--colorMain);
+}
+
+html {
+    position: relative;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+a {
+    color: var(--highlight);
+    text-decoration: none;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--colorDarkGrey);
+    border-bottom: 1px solid var(--colorLightGrey);
+}
+
+header h3 {
+    text-shadow: 2px 2px 4px var(--colorOnline);
+}
+
+.container {
+    display: grid;
+    grid-template-columns:720px auto;
+    padding-bottom: 200px;
+}
+
+input, button {
+    padding: 8px;
+    background: transparent;
+    color: var(--colorMain);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+input[type="text"], input[type="password"] {
+    border: 1px inset var(--colorSecGray);
+}
+
+input[type="submit"], input[type="button"], button {
+    border: 1px outset var(--colorSecGray);
+    padding: 8px;
+    cursor: pointer;
+}
+
+input[type="submit"]:active, input[type="button"]:active, button:active {
+    border-color: var(--bgMainColor);
+    background: var(--colorMainGray);
+    border-style: inset;
+    color: var(--colorSecGray);
+}
+
+input[type="submit"]:hover, input[type="button"]:hover, button:hover {
+    border-color: var(--bgMainColor);
+    background: var(--colorMainGray);
+}
+
+#scenes-field {
+    background: var(--colorMainGray);
+    box-shadow: 2px 4px 6px var(--shadowColor),
+    2px -2px 6px var(--shadowColor),
+    -2px 4px 6px var(--shadowColor);
+}
+
+#scenes {
+    &.error {
+        padding: 10px;
+        background: var(--bgErrorColor);
+        margin: 0 auto;
+        position: absolute;
+        font-size: 18px;
+        line-height: 28px;
+        top: 40px;
+        /* left: calc(50% - 320px);*/
+        width: 640px;
+        border-radius: 10px;
+        box-shadow: 2px 4px 4px var(--colorErrorRGBA),
+        2px -4px 4px var(--colorErrorRGBA),
+        -2px 4px 4px var(--colorErrorRGBA),
+        -2px -4px 4px var(--colorErrorRGBA);
+
+        &::before {
+            content: "Fehler: ";
+            font-weight: 600;
+            color: var(--colorError);
+        }
+    }
+
+}
+
+#options-field {
+    position: fixed;
+    width: 640px;
+    left: 760px;
+    top: 20px;
+    box-shadow: 2px 4px 6px var(--shadowColor),
+    2px -2px 6px var(--shadowColor),
+    -2px 4px 6px var(--shadowColor);
+}
+
+#options > div {
+    background: var(--colorSecGray);
+    padding: 10px;
+}
+
+#options > div > div {
+    padding: 10px 0;
+}
+
+#options {
+
+    .btn-short {
+        width: 130px;
+        text-align: left;
+        padding-left: 24px;
+    }
+
+    .btn-large {
+        position: relative;
+        width: 230px;
+    }
+}
+
+.arrow-left {
+    position: relative;
+
+    &:before {
+        content: "\25C4";
+        position: absolute;
+        left: 4px;
+        font-size: 8pt;
+    }
+}
+
+.save::before {
+    content: "\1F4BE";
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    font-size: 16px;
+}
+
+.download {
+    position: relative;
+    padding-left: 24px;
+
+    &::before {
+        content: "\1F4C1";
+        position: absolute;
+        top: 6px;
+        left: 4px;
+    }
+}
+
+.revert {
+    padding-left: 20px;
+
+    &::before {
+        content: "\021BA";
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        font-size: 18px;
+    }
+}
+
+#saveScenesData {
+    width: 100%;
+}
+
+.list-grid {
+    display: table;
+}
+
+.list-grid > div {
+    display: table-row;
+
+    &:nth-child(even) {
+        background: var(--colorSecGray);
+    }
+}
+
+.list-grid > div > div {
+    padding: 10px;
+    display: table-cell;
+}
+
+.active .scene-name {
+    position: relative;
+    font-weight: 600;
+    color: var(--highlight);
+    text-shadow: 2px 2px 2px var(--shadowColor);
+    padding-left: 28px;
+
+    &::after {
+        content: "\01f3a5";
+        position: absolute;
+        left: 2px;
+        top: 14px;
+        font-size: 14px;
+    }
+}
+
+.dropzone .active .scene-name {
+    padding-left: 22px;
+
+    &::after {
+        top: 4px;
+        left: -6px;
+    }
+}
+
+#game-preview {
+    display: inline-block;
+    position: absolute;
+    top: 26px;
+    left: 10px;
+    list-style: none;
+    padding: 0;
+    z-index: 1000;
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 200px;
+    min-width: 240px;
+    width: auto;
+
+    li {
+        background: var(--bgMainColor);
+        border-top: 1px solid var(--bgMainColor);
+        border-bottom: 1px solid var(--colorMainGray);
+        border-collapse: collapse;
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        padding: 8px 8px 8px 38px;
+
+        a {
+            font-size: 13px;
+            color: #e0e0e0;
+        }
+
+        &:before {
+            content: "";
+            background: var(--bg-image) no-repeat 0 0;
+            position: absolute;
+            top: calc(50% - 16px);
+            left: 0;
+            background-size: cover;
+            width: 32px;
+            height: 32px;
+        }
+    }
+}
+
+div[data-type="game-box"] {
+    position: relative;
+}
+
+.formElements {
+    display: none;
+}
+
+.loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.loader-text::before {
+    content: attr(data-text);
+    position: absolute;
+    bottom: -28px;
+    left: calc(50% - 160px);
+    text-align: center;
+    min-width: 320px;
+    width: auto;
+    margin: 0 auto;
+    background: var(--shadowColor);
+    padding: 6px;
+    border-radius: 20px;
+    font-size: 10pt;
+    opacity: 0.85;
+}
+
+.loader-bg {
+    width: 100%;
+    height: 100%;
+    background: var(--shadowColor);
+    opacity: 0.5;
+}
+
+.lds-dual-ring {
+    /*display: inline-block;*/
+    width: 80px;
+    height: 80px;
+    left: calc(50% - 40px);
+    top: calc(50% - 40px);
+
+    &:after {
+        content: " ";
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border-radius: 50%;
+        border: 6px solid var(--colorMain);
+        border-color: var(--colorMain) transparent var(--colorMain) transparent;
+        animation: lds-dual-ring 1.2s linear infinite;
+    }
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.notify--type-1 {
+    background-color: var(--bgMainColor) !important;
+
+    .notify__text, .notify--type-1 .notify__title {
+        color: var(--colorMain) !important;
+    }
+}
+
+
+button.updated, input.updated {
+    border-color: var(--highlight);
+    color: var(--highlight);
+    position: relative;
+
+    &::before {
+        content: "\231B";
+        font-weight: normal;
+    }
+}
+
+#stream-status {
+    &.online {
+        color: var(--colorOnline);
+    }
+
+    &.offline {
+        color: var(--colorError);
+    }
+}
+
+
+#stream-infos {
+    display: none;
+}
+
+.smaller {
+    font-size: 0.9em;
+}
+
+.has-entry, .has-entry::placeholder {
+    color: var(--highlight);
+}
+
+footer {
+    margin: 10px 0 0 0;
+    padding: 10px;
+    box-shadow: 0 0 10px var(--shadowColor);
+    color: rgba(255, 255, 255, .5);
+    font-size: 8pt;
+    font-weight: 600;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    background: var(--colorSecGray);
+    z-index: 2000;
+    text-shadow: 2px 2px 2px var(--shadowColor);
+}
+
+.item-box.draggable > div {
+    cursor: grab;
+}
+
+.item-box.draggable::before {
+    content: "\205D"; /* "\26DA" */
+    padding-left: 8px;
+    cursor: grab;
+}
+
+.dropzone {
+    flex-basis: 100%;
+    flex-grow: 1;
+    background: var(--colorMainGray);
+    width: 100%;
+    margin: 10px 0 10px 0;
+    position: relative;
+    border: 1px inset var(--shadowColor);
+    height: 240px;
+    overflow: auto;
+    padding: 0 !important;
+    vertical-align: top;
+}
+
+.sortable {
+    display: table;
+    width: 100%;
+    padding: 10px;
+    vertical-align: middle;
+    margin: 0;
+    border-bottom: 1px solid var(--shadowColor);
+
+    &:nth-child(odd) {
+        background: var(--colorSecGray);
+    }
+
+    &.drag-sort-active {
+        background: transparent;
+        color: transparent;
+        border: 1px solid var(--colorMain);
+    }
+
+    &.added-new {
+        box-shadow: inset 2px 2px 5px var(--highlight), inset 2px -2px 5px var(--highlight), inset -2px -2px 5px var(--highlight);
+        animation: box-shadow-remove 1.5s normal forwards ease-in-out;
+        animation-iteration-count: 1;
+    }
+}
+
+.sortable > div {
+    display: table-cell;
+
+    &:nth-child(1) {
+        width: 30px;
+        cursor: grab;
+
+        &::before {
+            content: "\2630";
+        }
+    }
+
+    &:nth-child(2) {
+        width: 300px;
+    }
+}
+
+@keyframes box-shadow-remove {
+    0% {
+    }
+    100% {
+        box-shadow: none;
+    }
+}
+
+.timeout {
+    width: 84px;
+}
+
+.trash {
+    cursor: pointer;
+
+    &::before {
+        content: "\1F5D1";
+        font-size: 20px;
+        padding: 0;
+        margin: 0;
+        color: var(--colorMain);
+        text-shadow: 2px 2px 4px var(--shadowColor);
+    }
+}

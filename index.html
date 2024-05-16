@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>{{ tool_name }} {{ version }}</title>
+    <meta name="color-scheme" content="dark">
+    <meta name="supported-color-schemes" content="dark">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="ZAM (***)">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<header>
+    <h3>{{ tool_name }} {{ version }}</h3>
+</header>
+<div class="container">
+
+    <div id="scenes-field">
+        <form name="scenesForm" id="scenesForm">
+            <div id="scenes"></div>
+        </form>
+    </div>
+
+    <div id="options-field">
+        <form id="optionsForm" name="optionsForm">
+            <div id="options" class="formElements">
+                <div>
+                    <div>
+                        Stream-Status: <span id="stream-status">Offline</span>
+                    </div>
+                    <div id="stream-infos" class="smaller">
+                        CPU: <span data-type="stream-info" data-field="cpuUsage">0%</span>
+                        | MEM: <span data-type="stream-info" data-field="memoryUsage">0GB</span>
+                        | FPS: <span data-type="stream-info" data-field="activeFps">0</span>
+                        | Frames Dropped: <span data-type="stream-info" data-field="outputSkippedFrames"
+                                                title="Frames dropped">0</span>
+                        <!--- | TDM: <span data-type="stream-info" data-field="outputDuration">00:00:00</span>--->
+                    </div>
+                    <hr>
+                    <div>
+                        <label>
+                            <button onclick="return toggleActiveButton(this)" class="btn-large"
+                                    title="Aktivieren, damit automatisch Spiele/Titel eingetragen werden, sobald die Szene wechselt.">
+                                <input type="checkbox" name="active" value="1" data-action="change"
+                                       data-event="check-ready-state">
+                                Auto-Switch-Checker aktiviert
+                            </button>
+                        </label>
+                    </div>
+                    <hr>
+                    <div>
+                        <label>
+                            <input type="password" name="token" value="" size="26" max="64" placeholder="Access token" autocomplete="off">
+                            <button
+                                    type="button" data-action="click" data-event="get-token"
+                                    class="btn-short arrow-left">Token holen
+                            </button>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="text" name="broadcaster" value="" size="26" placeholder="Broadcaster ID"
+                                   readonly>
+                            <button type="button" data-action="click" data-event="get-broadcaster"
+                                    class="btn-short arrow-left">ID ermitteln
+                            </button>
+                        </label>
+                    </div>
+                    <hr>
+                    <strong>Szenen zum Durchwechseln</strong> (Noch nicht implementiert)
+                    <div class="dropzone">
+                    </div>
+                    <hr>
+                    <div class="formElements">
+                        <div>
+                            <label>
+                                <input type="checkbox" data-action="change" data-event="auto-switch" name="auto-switch" value="1"> Szenen automatisch wechseln
+                            </label> | Wechsel alle:
+                            <label>
+                                <input type="number" min="1" class="auto-timeout" name="auto-timeout" max="120" size="30"
+                                       placeholder="Timeout" value="1"/>
+                                Minute(n)
+                            </label>
+                            <div>
+                                <small>
+                                    &nbsp;<strong>Achtung!</strong> Dadurch werden alle in der oberen Liste
+                                    vorgenommenen Einstellungen ignoriert!
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <button type="button" data-action="click" data-event="save-settings" id="saveSettings"
+                                class="btn-large save">
+                            Einstellungen speichern
+                        </button>
+                        <button type="button" data-action="click" data-event="clear-all" class="btn-large revert">
+                            Alle Einstellungen zurücksetzen
+                        </button>
+                    </div>
+                    <hr>
+                    <div id="patch-field">
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="loader loader-bg"></div>
+<div class="loader loader-text lds-dual-ring" data-text=""></div>
+
+<footer>
+    <div class="copyright">
+        <div class="inner">
+            Copyright &copy; {{ year }} <a href="https://zamperia.de/" target="_blank">Zamperia Soft</a>
+        </div>
+    </div>
+</footer>
+
+<template id="patcher">
+    <div>
+        <hr>
+        <strong>Neuer Patch verfügbar.</strong><br>
+        <small>Datum: {{ patch_date }} | Aktuell: {{ version_old }} | Neu: {{ version_new }}</small>
+    </div>
+    <div>
+        <br>
+        <button type="button" value="Patch jetzt ausführen" class="download" data-action="patch">
+            Patch jetzt ausführen
+        </button>
+    </div>
+</template>
+
+<template id="scene-box">
+    <div class="item-box draggable {{ active }}" data-scene="{{ name }}" draggable="true">
+        <div class="scene-name" data-scene="{{ name }}">
+            {{ name }}
+        </div>
+        <div data-type="game-box" data-scene="{{ name }}">
+            <label>
+                <input type="text" name="game[]" data-scene="{{ name }}" data-game-id="{{ game_id }}"
+                       data-game-name="{{ game }}"
+                       placeholder="" title="{{ game_placeholder }}" value="{{ game }}" autocomplete="off"
+                       maxlength="64"
+                       class="{{ has_entry }}" size="26">
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="text" name="title[]" data-scene="{{ name }}" placeholder="Optional: Titel"
+                       value="{{ title }}"
+                       autocomplete="off" maxlength="140" size="26">
+            </label>
+        </div>
+    </div>
+</template>
+
+<template id="scene-setup">
+    <div class="item-box sortable {{ active }} {{ added_new }}" data-scene="{{ name }}" draggable="true">
+        <div class="handle" title="Sortieren">
+
+        </div>
+        <div class="scene-name">
+            {{ name }}
+        </div>
+        <div>
+            <label>
+                <input type="number" min="1" max="120" class="timeout" name="timeout[]" data-active="{{ ttActive }}" data-scene="{{ name }}" data-field="scene-timeout" size="30" placeholder="Timeout"
+                       title="So lange bleibt die Szene bestehen - In Minuten" value="{{ timeout }}"
+                       {{ disabled }}
+                />
+            </label>
+        </div>
+        <div>
+            <span data-action="timer" data-scene="{{ name }}" title="Countdown">00:00</span>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" value="1" name="is_active[]" data-action="change-active" data-scene="{{ name }}"
+                       title="Szene in Wechsel einbinden" {{ is_active }}
+                />
+            </label>
+        </div>
+        <div>
+            &nbsp;<a title="Szene aus Wechsel-Liste löschen" class="trash" data-action="delete-switch-scene"
+                     data-scene="{{ name }}"></a>
+        </div>
+    </div>
+</template>
+
+<script src="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/obs-websocket-js"></script>
+<script src="lib/main.js" type="module"></script>
+
+</body>
+</html>
